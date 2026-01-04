@@ -1,17 +1,13 @@
 type Props = {
   children: React.ReactNode;
-  sidebar: React.ReactNode; 
-  modal: React.ReactNode;   
+  sidebar: React.ReactNode;
 };
 
-export default function NotesFilterLayout({ children, sidebar, modal }: Props) {
+export default function NotesFilterLayout({ children, sidebar }: Props) {
   return (
-    <>
-      {modal}
-      <section>
-        <aside>{sidebar}</aside>
-        <div>{children}</div>
-      </section>
-    </>
+    <section>
+      <aside>{sidebar}</aside>
+      <div>{children}</div>
+    </section>
   );
 }
