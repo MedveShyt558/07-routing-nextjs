@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import css from "./NoteList.module.css";
 import type { Note } from "@/types/note";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteNote } from "@/lib/api";
+import { deleteNote } from "@/lib/api/notes";
+import { useRouter } from "next/navigation";
 
 interface NoteListProps {
   notes: Note[];
@@ -12,14 +12,15 @@ interface NoteListProps {
 
 export default function NoteList({ notes }: NoteListProps) {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const { mutate, isPending } = useMutation({
     mutationFn: (id: string) => deleteNote(id),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["notes"] });
+      router.refresh();
     },
   });
-
   return (
     <ul className={css.list}>
       {notes.map((note) => (
@@ -32,11 +33,16 @@ export default function NoteList({ notes }: NoteListProps) {
           <p className={css.content}>{note.content}</p>
 
           <div className={css.footer}>
-            <Link className={css.link} href={`/notes/${note.id}`}>
+            <button
+              type="button"
+              className={css.link}
+              onClick={() => router.push(`/notes/${note.id}`)}
+            >
               View details
-            </Link>
+            </button>
 
             <button
+              type="button"
               className={css.button}
               disabled={isPending}
               onClick={() => mutate(note.id)}

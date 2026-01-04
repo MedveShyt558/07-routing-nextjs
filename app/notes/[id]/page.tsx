@@ -1,24 +1,20 @@
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { fetchNoteById } from "@/lib/api";
-import NoteDetailsClient from "./NoteDetails.client";
+import { fetchNoteById } from '@/lib/api/notes';
+import NoteDetails from '@/components/NoteDetails/NoteDetails';
+import { notFound } from 'next/navigation';
+import axios from 'axios';
 
-type Props = {
-  params: Promise<{ id: string }>;
-};
+type Props = { params: Promise<{ id: string }> };
 
-export default async function NoteDetailsPage({ params }: Props) {
+export default async function NotePage({ params }: Props) {
   const { id } = await params;
 
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery({
-    queryKey: ["note", id],
-    queryFn: () => fetchNoteById(id),
-  });
-
-  return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <NoteDetailsClient />
-    </HydrationBoundary>
-  );
+  try {
+    const note = await fetchNoteById(id);
+    return <NoteDetails note={note} />;
+  } catch (err) {
+    if (axios.isAxiosError(err) && err.response?.status === 404) {
+      notFound();
+    }
+    throw err;
+  }
 }

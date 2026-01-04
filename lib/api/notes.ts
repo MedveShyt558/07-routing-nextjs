@@ -1,7 +1,6 @@
-import axios from "axios";
-import type { AxiosResponse } from "axios";
-import type { CreateNoteRequest, Note } from "@/types/note";
-
+import axios from 'axios';
+import type { AxiosResponse } from 'axios';
+import type { CreateNoteRequest, Note } from '@/types/note';
 
 export interface FetchNotesResponse {
   notes: Note[];
@@ -11,7 +10,7 @@ export interface FetchNotesResponse {
 const BASE_URL = process.env.NEXT_PUBLIC_NOTEHUB_API;
 
 if (!BASE_URL) {
-  throw new Error("NEXT_PUBLIC_NOTEHUB_API is not defined");
+  throw new Error('NEXT_PUBLIC_NOTEHUB_API is not defined');
 }
 
 const api = axios.create({
@@ -27,28 +26,37 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-export const fetchNotes = async (params: {
-  page: number;
-  perPage: number;
+type FetchNotesParams = {
+  page?: number;
+  perPage?: number;
   search?: string;
-}): Promise<FetchNotesResponse> => {
-  const res: AxiosResponse<FetchNotesResponse> = await api.get("/notes", {
+  tag?: string; 
+};
+
+export const fetchNotes = async (
+  params: FetchNotesParams = {}
+): Promise<FetchNotesResponse> => {
+  const res: AxiosResponse<FetchNotesResponse> = await api.get('/notes', {
     params: {
       page: params.page,
       perPage: params.perPage,
       search: params.search || undefined,
+      tag: params.tag || undefined,
     },
   });
+
   return res.data;
 };
 
 export const fetchNoteById = async (id: string): Promise<Note> => {
+    console.log("BASE_URL:", BASE_URL);
+  console.log("FETCH NOTE URL:", `${BASE_URL}/notes/${id}`);
   const res: AxiosResponse<Note> = await api.get(`/notes/${id}`);
   return res.data;
 };
 
 export const createNote = async (payload: CreateNoteRequest): Promise<Note> => {
-  const res: AxiosResponse<Note> = await api.post("/notes", payload);
+  const res: AxiosResponse<Note> = await api.post('/notes', payload);
   return res.data;
 };
 

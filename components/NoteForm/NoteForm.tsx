@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import css from "./NoteForm.module.css";
 import type { CreateNoteRequest, NoteTag } from "@/types/note";
-import { createNote } from "@/lib/api";
+import { createNote } from "@/lib/api/notes";
 
 interface NoteFormProps {
   onCancel: () => void;
