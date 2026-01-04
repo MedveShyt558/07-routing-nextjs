@@ -1,5 +1,5 @@
 import Modal from '@/components/Modal/Modal';
-import NotePreview from '@/components/NotePreview/NotePreview';
+import NotePreviewClient from './NotePreview.client';
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -8,7 +8,7 @@ export default async function NoteModalPage({ params }: Props) {
 
   return (
     <Modal>
-      <NotePreview id={id} />
+      <NotePreviewClient id={id} />
     </Modal>
   );
 }
