@@ -6,10 +6,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import css from "./NoteForm.module.css";
 import type { CreateNoteRequest, NoteTag } from "@/types/note";
-import { createNote } from "@/lib/api/notes";
+import { createNote } from "@/lib/api";
 
 interface NoteFormProps {
-  onCancel: () => void;
+  onClose: () => void;
 }
 
 const TAGS: NoteTag[] = ["Todo", "Work", "Personal", "Meeting", "Shopping"];
@@ -20,14 +20,14 @@ const validationSchema = Yup.object({
   tag: Yup.mixed<NoteTag>().oneOf(TAGS).required("Tag is required"),
 });
 
-export default function NoteForm({ onCancel }: NoteFormProps) {
+export default function NoteForm({ onClose }: NoteFormProps) {
   const queryClient = useQueryClient();
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (payload: CreateNoteRequest) => createNote(payload),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["notes"] });
-      onCancel();
+      onClose();
     },
   });
 
@@ -80,7 +80,7 @@ export default function NoteForm({ onCancel }: NoteFormProps) {
         <div className={css.actions}>
           <button
             type="button"
-            onClick={onCancel}
+            onClick={onClose}
             className={css.cancelButton}
             disabled={isPending}
           >

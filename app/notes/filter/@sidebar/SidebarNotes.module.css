@@ -10,7 +10,7 @@
 
 .menuLink {
     text-decoration: none;
-    color: white;
+    
     font-size: 16px;
     display: block;
     padding: 8px 16px;
@@ -19,5 +19,5 @@
 
 .menuLink:hover {
     background-color: #444;
-    color: #ddd;
+    
 }

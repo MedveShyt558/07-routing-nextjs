@@ -1,4 +1,4 @@
-import { fetchNoteById } from '@/lib/api/notes';
+import { fetchNoteById } from '@/lib/api';
 import NoteDetails from '@/components/NoteDetails/NoteDetails';
 import { notFound } from 'next/navigation';
 import axios from 'axios';
