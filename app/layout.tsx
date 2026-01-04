@@ -26,4 +26,5 @@ export default function RootLayout({ children, modal }: Props) {
       </body>
     </html>
   );
+  
 }
