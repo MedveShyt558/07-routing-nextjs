@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { fetchNoteById } from '@/lib/api';
+import { fetchNoteById } from '@/lib/api/notes';
 import css from './NotePreview.client.module.css';
 
 type Props = { id: string };
@@ -23,4 +23,3 @@ export default function NotePreviewClient({ id }: Props) {
     </div>
   );
 }
-    
