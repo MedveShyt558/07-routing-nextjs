@@ -1,7 +1,6 @@
 import { dehydrate } from "@tanstack/react-query";
 import getQueryClient from "@/lib/queryClient";
 import { fetchNoteById } from "@/lib/api";
-import Modal from "@/components/Modal/Modal";
 import NotePreviewClient from "./NotePreview.client";
 import HydrateClient from "./Hydrate.client";
 
@@ -21,9 +20,7 @@ export default async function NoteModalPage({ params }: Props) {
 
   return (
     <HydrateClient state={state}>
-      <Modal>
-        <NotePreviewClient id={id} />
-      </Modal>
+      <NotePreviewClient id={id} />
     </HydrateClient>
   );
 }
